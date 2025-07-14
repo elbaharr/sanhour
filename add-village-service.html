@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>إضافة خدمة عامة | لوحة التحكم</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body class="dashboard-page">
+  <aside class="dashboard-sidebar">
+    <a href="index.html" class="logo">
+      <img src="img/logo.png" alt="شعار موقع سنهور البحرية" />
+    </a>
+    <nav class="dashboard-nav">
+      <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> نظرة عامة</a>
+      <a href="view-craftsmen.html"><i class="fas fa-screwdriver-wrench"></i> إدارة الصنايعية</a>
+      <a href="view-shops.html"><i class="fas fa-store"></i> إدارة المحلات</a>
+      <a href="view-news.html"><i class="fas fa-newspaper"></i> إدارة الأخبار</a>
+      <a href="view-medical.html"><i class="fas fa-hospital"></i> إدارة الخدمات الطبية</a>
+      <a href="view-village-services.html" class="active"><i class="fas fa-concierge-bell"></i> إدارة الخدمات العامة</a>
+      <a href="view-messages.html"><i class="fas fa-envelope"></i> عرض الرسائل</a>
+    </nav>
+    <div class="logout-btn">
+      <a href="login.html"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a>
+    </div>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="dashboard-header">
+      <h1>إدارة الخدمات العامة</h1>
+      <p>أضف خدمة عامة جديدة (مثل محطة بنزين، مكتب بريد، إلخ).</p>
+    </header>
+
+    <div class="form-container">
+      <h2>نموذج إضافة خدمة جديدة</h2>
+      <form id="add-service-form">
+        <div class="form-group">
+          <label for="service-name">اسم الخدمة/المكان</label>
+          <input type="text" id="service-name" required />
+        </div>
+        <div class="form-group">
+          <label for="service-type">نوع الخدمة (مثال: محطة وقود)</label>
+          <input type="text" id="service-type" required />
+        </div>
+        <div class="form-group">
+          <label for="service-address">العنوان</label>
+          <input type="text" id="service-address" />
+        </div>
+        <div class="form-group">
+          <label for="service-notes">ملاحظات (مثل مواعيد العمل)</label>
+          <textarea id="service-notes" rows="4"></textarea>
+        </div>
+
+        <button type="submit" class="btn">إضافة الخدمة</button>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById("add-service-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("service-name").value;
+      const type = document.getElementById("service-type").value;
+      const address = document.getElementById("service-address").value;
+      const notes = document.getElementById("service-notes").value;
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        alert("❗ يجب تسجيل الدخول أولاً");
+        return;
+      }
+
+      try {
+        const res = await fetch("http://localhost:5000/add-village-service", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+          },
+          body: JSON.stringify({
+            name,
+            type,
+            address,
+            notes
+          })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          alert("✅ تم إضافة الخدمة العامة بنجاح");
+          document.getElementById("add-service-form").reset();
+        } else {
+          alert("❌ فشل: " + data.msg);
+        }
+      } catch (err) {
+        alert("❌ حدث خطأ أثناء الإرسال");
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>

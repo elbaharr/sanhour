@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>خدمات عامة | سنهور البحرية</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body class="sub-page">
+
+  <header id="main-header">
+    <nav class="container">
+      <a href="index.html" class="logo">
+        <img src="img/logo.png" alt="شعار موقع سنهور البحرية">
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">الخدمات</a></li>
+      <li><a href="#about">عن القرية</a></li>
+      <li><a href="#news-preview">آخر الأخبار</a></li>
+      <li><a href="craftsman.html">الصنايعية</a></li>
+      <li><a href="shops.html">المحلات</a></li>
+      <li><a href="contact.html">اتصل بنا</a></li>
+      <li><a href="register.html">التسجيل</a></li>
+      <li><a href="login.html">تسجيل الدخول</a></li>
+      <li><button id="theme-toggle" class="theme-toggle-btn"><i class="fas fa-moon"></i></button></li>
+  </ul>       
+    </nav>
+</header>
+
+    <main>
+        <section class="section-padding">
+            <div class="container">
+                <h2 class="section-title reveal">خدمات عامة</h2>
+                <p class="section-subtitle reveal">قائمة بالخدمات والمرافق العامة في القرية.</p>
+
+                <div class="cards-container" id="village-services-list">
+                    <div class="card reveal">
+                        <i class="fas fa-gas-pump"></i>
+                        <h3>محطة وقود [اسم المحطة]</h3>
+                        <p>العنوان: [مكان المحطة]</p>
+                        <p>مواعيد العمل: 24 ساعة</p>
+                    </div>
+                    </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+      <div class="container">
+          <div class="footer-content">
+              <div class="footer-col">
+                  <h3>سنهور البحرية</h3>
+                  <p>دليلك الشامل لقرية سنهور البحرية.</p>
+                  <div class="social-icons">
+                      <a href="#"><i class="fab fa-facebook-f"></i></a>
+                      <a href="#"><i class="fab fa-twitter"></i></a>
+                      <a href="#"><i class="fab fa-instagram"></i></a>
+                  </div>
+              </div>
+              <div class="footer-col">
+                  <h3>روابط سريعة</h3>
+                  <ul>
+                      <li><a href="index.html#services">الخدمات</a></li>
+                      <li><a href="index.html#about">عن القرية</a></li>
+                      <li><a href="index.html#news-preview">آخر الأخبار</a></li>
+
+                      <li><a href="contact.html">اتصل بنا</a></li>
+                  </ul>
+              </div>
+              <div class="footer-col">
+                  <h3>تواصل معنا</h3>
+                  <p><i class="fas fa-map-marker-alt"></i> سنهور البحرية، الفيوم، مصر</p>
+                  <p><i class="fas fa-phone"></i> 01127594310</p>
+                  <p><i class="fas fa-envelope"></i> aana1724@gmail.com</p>
+              </div>
+          </div>
+          <div class="footer-bottom">
+            <p>
+                جميع الحقوق محفوظة &copy; 2025 - موقع قرية سنهور البحرية <br>
+                تم التطوير بواسطة <a href="developer.html" style="color: #fff; text-decoration: underline;">عبدالرحمن محمد</a>
+            </p>
+        </div>
+      </div>
+  </footer>
+    <script src="script.js"></script>
+    <script>
+  async function fetchVillageServices() {
+    try {
+      const res = await fetch("http://localhost:5000/village-services");
+      const data = await res.json();
+
+      const container = document.getElementById("village-services-list");
+      container.innerHTML = ""; // نفرغ الديف الأول
+
+      data.forEach(service => {
+        const card = document.createElement("div");
+        card.className = "card reveal";
+
+        card.innerHTML = `
+          <i class="fas fa-concierge-bell"></i>
+          <h3>${service.type} ${service.name}</h3>
+          <p>العنوان: ${service.address || "غير متوفر"}</p>
+          <p>ملاحظات: ${service.notes || "لا يوجد"}</p>
+        `;
+
+        container.appendChild(card);
+      });
+    } catch (err) {
+      console.error("خطأ أثناء تحميل الخدمات:", err);
+      document.getElementById("village-services-list").innerHTML = "<p>فشل تحميل الخدمات، حاول لاحقًا.</p>";
+    }
+  }
+
+  // تحميل تلقائي عند فتح الصفحة
+  window.onload = fetchVillageServices;
+</script>
+
+    </body>
+</html>
+

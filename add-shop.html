@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة محل | لوحة التحكم</title>
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-page">
+
+    <aside class="dashboard-sidebar">
+      <a href="index.html" class="logo">
+        <img src="img/logo.png" alt="شعار موقع سنهور البحرية">
+    </a>
+    <nav class="dashboard-nav">
+      <a href="dashboard.html" ><i class="fas fa-tachometer-alt"></i> نظرة عامة</a>
+      <a href="view-craftsmen.html"><i class="fas fa-screwdriver-wrench"></i> إدارة الصنايعية</a>
+      <a href="view-shops.html" class="active"><i class="fas fa-store"></i> إدارة المحلات</a>
+      <a href="view-news.html"><i class="fas fa-newspaper"></i> إدارة الأخبار</a>
+      <a href="view-medical.html" ><i class="fas fa-hospital"></i> إدارة الخدمات الطبية</a>
+      <a href="view-village-services.html"><i class="fas fa-concierge-bell"></i> إدارة الخدمات العامة</a>
+      <a href="view-messages.html"><i class="fas fa-envelope"></i> عرض الرسائل</a>
+  </nav>
+
+        <div class="logout-btn">
+            <a href="login.html"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a>
+        </div>
+    </aside>
+
+    <main class="dashboard-main">
+        <header class="dashboard-header">
+            <h1>إدارة المحلات</h1>
+            <p>أضف محلاً تجاريًا جديدًا إلى دليل الموقع.</p>
+        </header>
+
+        <div class="form-container">
+            <h2>نموذج إضافة محل جديد</h2>
+            <form id="add-shop-form">
+                <div class="form-group">
+                    <label for="shop-name">اسم المحل</label>
+                    <input type="text" id="shop-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="shop-type">نوع المحل (مثال: بقالة، صيدلية)</label>
+                    <input type="text" id="shop-type" required>
+                </div>
+                <div class="form-group">
+                    <label for="shop-phone">رقم الهاتف</label>
+                    <input type="tel" id="shop-phone">
+                </div>
+                <div class="form-group">
+                    <label for="shop-address">العنوان (اختياري)</label>
+                    <input type="text" id="shop-address">
+                </div>
+                
+                <button type="submit" class="btn">إضافة المحل</button>
+            </form>
+        </div>
+    </main>
+    
+    
+</body>
+</html>

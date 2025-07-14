@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم | سنهور البحرية</title>
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-page">
+
+    <aside class="dashboard-sidebar">
+      <a href="index.html" class="logo">
+        <img src="img/logo.png" alt="شعار موقع سنهور البحرية">
+    </a>
+        
+    <nav class="dashboard-nav">
+      <a href="dashboard.html"  class="active"><i class="fas fa-tachometer-alt"></i> نظرة عامة</a>
+      <a href="view-craftsmen.html"><i class="fas fa-screwdriver-wrench"></i> إدارة الصنايعية</a>
+      <a href="view-shops.html"><i class="fas fa-store"></i> إدارة المحلات</a>
+      <a href="view-news.html"><i class="fas fa-newspaper"></i> إدارة الأخبار</a>
+      <a href="view-medical.html"><i class="fas fa-hospital"></i> إدارة الخدمات الطبية</a>
+      <a href="view-village-services.html"><i class="fas fa-concierge-bell"></i> إدارة الخدمات العامة</a>
+      <a href="view-messages.html"><i class="fas fa-envelope"></i> عرض الرسائل</a>
+  </nav>
+
+
+        <div class="logout-btn">
+            <a href="login.html"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a>
+        </div>
+    </aside>
+
+    <main class="dashboard-main">
+        <header class="dashboard-header">
+            <h1>نظرة عامة</h1>
+            <p>أهلاً بك في لوحة تحكم موقع دليل سنهور البحرية.</p>
+        </header>
+
+        <div class="stats-grid">
+          <a href="view-craftsmen.html" class="stat-card-link">
+              <div class="stat-card">
+                  <i class="fas fa-users-cog"></i>
+                  <div class="info">
+                      <h3>15</h3>
+                      <p>صنايعي مسجل</p>
+                  </div>
+              </div>
+          </a>
+      
+          <a href="view-shops.html" class="stat-card-link">
+              <div class="stat-card">
+                  <i class="fas fa-store-alt"></i>
+                  <div class="info">
+                      <h3>22</h3>
+                      <p>محل مسجل</p>
+                  </div>
+              </div>
+          </a>
+      
+          <a href="view-news.html" class="stat-card-link">
+              <div class="stat-card">
+                  <i class="fas fa-newspaper"></i>
+                  <div class="info">
+                      <h3>8</h3>
+                      <p>خبر منشور</p>
+                  </div>
+              </div>
+          </a>
+          
+          <a href="view-medical.html" class="stat-card-link">
+              <div class="stat-card">
+                  <i class="fas fa-hospital-user"></i>
+                  <div class="info">
+                      <h3>5</h3>
+                      <p>خدمات طبية</p>
+                  </div>
+              </div>
+          </a>
+      
+          <a href="view-village-services.html" class="stat-card-link">
+              <div class="stat-card">
+                  <i class="fas fa-concierge-bell"></i>
+                  <div class="info">
+                      <h3>3</h3>
+                      <p>خدمات عامة</p>
+                  </div>
+              </div>
+          </a>
+      
+          <a href="view-messages.html" class="stat-card-link">
+              <div class="stat-card">
+                  <i class="fas fa-inbox"></i>
+                  <div class="info">
+                      <h3>5</h3>
+                      <p>رسائل جديدة</p>
+                  </div>
+              </div>
+          </a>
+      </div>
+
+    </main>
+    <script>
+  document.addEventListener("DOMContentLoaded", async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("من فضلك سجل الدخول أولاً.");
+      window.location.href = "login.html";
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/dashboard/stats", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.message || "حدث خطأ أثناء تحميل البيانات.");
+        return;
+      }
+
+      // تحديث القيم في الصفحة
+      document.querySelector(".stat-card:nth-child(1) h3").textContent = data.craftsmen || 0;
+      document.querySelector(".stat-card:nth-child(2) h3").textContent = data.shops || 0;
+      document.querySelector(".stat-card:nth-child(3) h3").textContent = data.news || 0;
+      document.querySelector(".stat-card:nth-child(4) h3").textContent = data.medical || 0;
+      document.querySelector(".stat-card:nth-child(5) h3").textContent = data.services || 0;
+      document.querySelector(".stat-card:nth-child(6) h3").textContent = data.messages || 0;
+
+    } catch (err) {
+      console.error("Dashboard Error:", err);
+      alert("فشل الاتصال بالخادم.");
+    }
+  });
+</script>
+
+    
+</body>
+</html>
+

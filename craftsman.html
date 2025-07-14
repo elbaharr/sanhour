@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الصنايعية | سنهور البحرية</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="sub-page">
+
+    <header id="main-header">
+        <nav class="container">
+             <a href="index.html" class="logo">
+                <img src="img/logo.png" alt="شعار موقع سنهور البحرية">
+            </a>
+            <ul class="nav-links">
+              <li><a href="index.html#services">الخدمات</a></li>
+              <li><a href="index.html#about">عن القرية</a></li>
+              <li><a href="index.html#news-preview">آخر الأخبار</a></li>
+              <li><a href="craftsman.html">الصنايعية</a></li>
+              <li><a href="shops.html">المحلات</a></li>
+              <li><a href="contact.html">اتصل بنا</a></li>
+              <li><button id="theme-toggle" class="theme-toggle-btn"><i class="fas fa-moon"></i></button></li>
+            </ul>
+            <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="section-padding">
+            <div class="container">
+                <h2 class="section-title reveal">قائمة الصنايعية</h2>
+                <p class="section-subtitle reveal">اعثر على أفضل المحترفين في قريتنا.</p>
+                
+                <div class="search-container reveal"><input type="text" id="search-input" placeholder="ابحث بالاسم أو المهنة..."></div>
+                
+                <div class="tabs-nav reveal">
+                    <button class="tab-btn active" data-target="#tab-electricians">كهربائية</button>
+                    <button class="tab-btn" data-target="#tab-plumbers">سباكين</button>
+                    <button class="tab-btn" data-target="#tab-carpenters">نجارين</button>
+                    <button class="tab-btn" data-target="#tab-blacksmiths">حدادين</button>
+                    <button class="tab-btn" data-target="#tab-painters">نقاشين</button>
+
+                    <button class="tab-btn" data-target="#tab-others">أخرى</button>
+
+                    <div id="tab-others" class="tab-pane">
+                      <div class="cards-container"><p>جاري تحميل البيانات...</p></div>
+                    </div>
+                    
+
+                </div>
+
+                <div class="tabs-content">
+                    <div id="tab-electricians" class="tab-pane active">
+                        <div class="cards-container"><p>جاري تحميل البيانات...</p></div>
+                    </div>
+                    <div id="tab-plumbers" class="tab-pane">
+                        <div class="cards-container"><p>جاري تحميل البيانات...</p></div>
+                    </div>
+                    <div id="tab-carpenters" class="tab-pane">
+                         <div class="cards-container"><p>جاري تحميل البيانات...</p></div>
+                    </div>
+                    <div id="tab-blacksmiths" class="tab-pane">
+                         <div class="cards-container"><p>جاري تحميل البيانات...</p></div>
+                    </div>
+                     <div id="tab-painters" class="tab-pane">
+                         <div class="cards-container"><p>جاري تحميل البيانات...</p></div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+      <div class="container">
+          <div class="footer-content">
+              <div class="footer-col">
+                  <h3>سنهور البحرية</h3>
+                  <p>دليلك الشامل لقرية سنهور البحرية.</p>
+                  <div class="social-icons">
+                      <a href="#"><i class="fab fa-facebook-f"></i></a>
+                      <a href="#"><i class="fab fa-twitter"></i></a>
+                      <a href="#"><i class="fab fa-instagram"></i></a>
+                  </div>
+              </div>
+              <div class="footer-col">
+                  <h3>روابط سريعة</h3>
+                  <ul>
+                      <li><a href="#services">خدماتنا</a></li>
+                      <li><a href="#about">عن القرية</a></li>
+                      <li><a href="#news-preview">الأخبار</a></li>
+                      <li><a href="contact.html">اتصل بنا</a></li>
+                  </ul>
+              </div>
+              <div class="footer-col">
+                  <h3>تواصل معنا</h3>
+                  <p><i class="fas fa-map-marker-alt"></i> سنهور البحرية، الفيوم، مصر</p>
+                  <p><i class="fas fa-phone"></i> 01127594310</p>
+                  <p><i class="fas fa-envelope"></i> aana1724@gmail.com</p>
+              </div>
+          </div>
+          <div class="footer-bottom">
+            <p>
+                جميع الحقوق محفوظة &copy; 2025 - موقع قرية سنهور البحرية <br>
+                تم التطوير بواسطة <a href="developer.html" style="color: #fff; text-decoration: underline;">عبدالرحمن محمد</a>
+            </p>
+        </div>
+      </div>
+  </footer>
+
+<script>
+  const categories = {
+    "كهربائي": "tab-electricians",
+    "سباك": "tab-plumbers",
+    "نجار": "tab-carpenters",
+    "حداد": "tab-blacksmiths",
+    "نقاش": "tab-painters",
+  };
+
+  async function loadCraftsmen() {
+    try {
+      const res = await fetch("http://localhost:5000/craftsmen");
+      const data = await res.json();
+
+      // مسح جميع الكروت القديمة
+      Object.values(categories).forEach(id => {
+        document.querySelector(`#${id} .cards-container`).innerHTML = "";
+      });
+      document.querySelector(`#tab-others .cards-container`).innerHTML = "";
+
+      data.forEach(craftsman => {
+        const card = document.createElement("div");
+        card.className = "card reveal";
+        card.innerHTML = `
+          <i class="fas fa-user-cog"></i>
+          <h3>${craftsman.name}</h3>
+          <p>المهنة: ${craftsman.job}</p>
+          <p>الهاتف: ${craftsman.phone || "غير متوفر"}</p>
+          <p>العنوان: ${craftsman.address || "غير متوفر"}</p>
+        `;
+
+        const categoryId = categories[craftsman.job] || "tab-others";
+        document.querySelector(`#${categoryId} .cards-container`).appendChild(card);
+      });
+
+    } catch (err) {
+      console.error("فشل في تحميل الصنايعية:", err);
+      Object.values(categories).forEach(id => {
+        document.querySelector(`#${id} .cards-container`).innerHTML = "<p>فشل تحميل البيانات</p>";
+      });
+    }
+  }
+
+  // فلترة بالأزرار
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      document.querySelectorAll(".tab-pane").forEach(pane => pane.classList.remove("active"));
+      const target = btn.getAttribute("data-target");
+      document.querySelector(target).classList.add("active");
+    });
+  });
+
+  // البحث
+  document.getElementById("search-input").addEventListener("input", e => {
+    const query = e.target.value.toLowerCase();
+    document.querySelectorAll(".card").forEach(card => {
+      card.style.display = card.textContent.toLowerCase().includes(query) ? "block" : "none";
+    });
+  });
+
+  // تحميل الصنايعية عند فتح الصفحة
+  window.onload = loadCraftsmen;
+</script>
+
+
+</body>
+</html>

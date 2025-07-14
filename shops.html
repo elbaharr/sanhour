@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المحلات | سنهور البحرية</title>
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <body class="sub-page">
+
+    <header id="main-header">
+        <nav class="container">
+          <a href="index.html" class="logo">
+            <img src="img/logo.png" alt="شعار موقع سنهور البحرية">
+        </a>
+        <ul class="nav-links">
+          <li><a href="#services">الخدمات</a></li>
+          <li><a href="#about">عن القرية</a></li>
+          <li><a href="#news-preview">آخر الأخبار</a></li>
+          <li><a href="craftsman.html">الصنايعية</a></li>
+          <li><a href="shops.html">المحلات</a></li>
+          <li><a href="contact.html">اتصل بنا</a></li>
+          <li><a href="register.html">التسجيل</a></li>
+          <li><a href="login.html">تسجيل الدخول</a></li>
+          <li><button id="theme-toggle" class="theme-toggle-btn"><i class="fas fa-moon"></i></button></li>
+      </ul>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="section-padding" style="padding-top: 120px;">
+            <div class="container">
+                <h2 class="section-title reveal">دليل المحلات التجارية</h2>
+                <p class="section-subtitle reveal">كل ما تحتاجه من مستلزمات يومية وخدمات.</p>
+                <div class="cards-container" id="shops-list">
+                  <p>جاري تحميل قائمة المحلات...</p>
+                </div>
+                
+            </div>
+        </section>
+    </main>
+
+    <footer>
+      <div class="container">
+          <div class="footer-content">
+              <div class="footer-col">
+                  <h3>سنهور البحرية</h3>
+                  <p>دليلك الشامل لقرية سنهور البحرية.</p>
+                  <div class="social-icons">
+                      <a href="#"><i class="fab fa-facebook-f"></i></a>
+                      <a href="#"><i class="fab fa-twitter"></i></a>
+                      <a href="#"><i class="fab fa-instagram"></i></a>
+                  </div>
+              </div>
+              <div class="footer-col">
+                  <h3>روابط سريعة</h3>
+                  <ul>
+                      <li><a href="#services">خدماتنا</a></li>
+                      <li><a href="#about">عن القرية</a></li>
+                      <li><a href="#news-preview">الأخبار</a></li>
+                      <li><a href="contact.html">اتصل بنا</a></li>
+                  </ul>
+              </div>
+              <div class="footer-col">
+                  <h3>تواصل معنا</h3>
+                  <p><i class="fas fa-map-marker-alt"></i> سنهور البحرية، الفيوم، مصر</p>
+                  <p><i class="fas fa-phone"></i> 01127594310</p>
+                  <p><i class="fas fa-envelope"></i> aana1724@gmail.com</p>
+              </div>
+          </div>
+          <div class="footer-bottom">
+            <p>
+                جميع الحقوق محفوظة &copy; 2025 - موقع قرية سنهور البحرية <br>
+                تم التطوير بواسطة <a href="developer.html" style="color: #fff; text-decoration: underline;">عبدالرحمن محمد</a>
+            </p>
+        </div>
+      </div>
+  </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const container = document.getElementById("shops-list");
+        container.innerHTML = "<p>جاري تحميل المحلات...</p>";
+
+        fetch("http://localhost:5000/shops")
+          .then((res) => {
+            if (!res.ok) throw new Error("فشل في تحميل البيانات");
+            return res.json();
+          })
+          .then((data) => {
+            if (!data || data.length === 0) {
+              container.innerHTML = "<p>لا توجد محلات حاليًا.</p>";
+              return;
+            }
+
+            container.innerHTML = ""; // فضي المحتوى
+            data.forEach((shop) => {
+              const card = document.createElement("div");
+              card.className = "card reveal";
+              card.innerHTML = `
+                <i class="fas fa-store"></i>
+                <h3>${shop.name}</h3>
+                <p><strong>النشاط:</strong> ${shop.activity || "غير محدد"}</p>
+                <p><strong>العنوان:</strong> ${shop.address || "غير متوفر"}</p>
+                <p><strong>رقم الهاتف:</strong> ${shop.phone || "غير متوفر"}</p>
+              `;
+              container.appendChild(card);
+            });
+          })
+          .catch((err) => {
+            console.error("Error:", err);
+            container.innerHTML = "<p>حدث خطأ أثناء تحميل المحلات.</p>";
+          });
+      });
+    </script>
+
+    
+</body>
+</html>

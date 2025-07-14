@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>إدارة الأخبار | لوحة التحكم</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body class="dashboard-page">
+  <aside class="dashboard-sidebar">
+    <a href="index.html" class="logo">
+      <img src="img/logo.png" alt="شعار موقع سنهور البحرية" />
+    </a>
+    <nav class="dashboard-nav">
+      <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> نظرة عامة</a>
+      <a href="view-craftsmen.html"><i class="fas fa-screwdriver-wrench"></i> إدارة الصنايعية</a>
+      <a href="view-shops.html"><i class="fas fa-store"></i> إدارة المحلات</a>
+      <a href="view-news.html" class="active"><i class="fas fa-newspaper"></i> إدارة الأخبار</a>
+      <a href="view-medical.html"><i class="fas fa-hospital"></i> إدارة الخدمات الطبية</a>
+      <a href="view-village-services.html"><i class="fas fa-concierge-bell"></i> إدارة الخدمات العامة</a>
+      <a href="view-messages.html"><i class="fas fa-envelope"></i> عرض الرسائل</a>
+    </nav>
+    <div class="logout-btn">
+      <a href="login.html"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a>
+    </div>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="dashboard-header">
+      <h1>إدارة الأخبار</h1>
+      <p>عرض، تعديل، وحذف الأخبار المنشورة في الموقع.</p>
+    </header>
+
+    <a href="add-news.html" class="btn"><i class="fas fa-plus"></i> إضافة خبر جديد</a>
+
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>عنوان الخبر</th>
+            <th>تاريخ النشر</th>
+            <th>إجراءات</th>
+          </tr>
+        </thead>
+        <tbody id="news-table-body"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <script>
+    async function fetchNews() {
+      try {
+        const res = await fetch("http://localhost:5000/news");
+        const data = await res.json();
+
+        const tableBody = document.getElementById("news-table-body");
+        tableBody.innerHTML = "";
+
+        data.forEach((news) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${news.title}</td>
+            <td>${news.date}</td>
+            <td>
+              <button class="action-btn btn-edit" onclick="editNews(${news.id})"><i class="fas fa-edit"></i> تعديل</button>
+              <button class="action-btn btn-delete" onclick="deleteNews(${news.id})"><i class="fas fa-trash"></i> حذف</button>
+            </td>
+          `;
+          tableBody.appendChild(row);
+        });
+      } catch (err) {
+        alert("فشل تحميل الأخبار");
+        console.error(err);
+      }
+    }
+
+    async function deleteNews(id) {
+      const confirmDelete = confirm("هل أنت متأكد من حذف هذا الخبر؟");
+      if (!confirmDelete) return;
+
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("يجب تسجيل الدخول");
+        return;
+      }
+
+      try {
+        const res = await fetch(`http://localhost:5000/delete-news/${id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
+
+        const result = await res.json();
+
+        if (res.ok) {
+          alert("تم حذف الخبر بنجاح");
+          fetchNews(); // إعادة تحميل الجدول
+        } else {
+          alert("فشل: " + result.msg);
+        }
+      } catch (err) {
+        alert("حدث خطأ أثناء الحذف");
+        console.error(err);
+      }
+    }
+
+    function editNews(id) {
+      alert("لم يتم تفعيل التعديل بعد. يمكنك تنفيذها لاحقًا.");
+    }
+
+    // تحميل الأخبار عند فتح الصفحة
+    window.onload = fetchNews;
+  </script>
+</body>
+</html>

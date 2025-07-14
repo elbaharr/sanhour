@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عرض الرسائل | لوحة التحكم</title>
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-page">
+
+    <aside class="dashboard-sidebar">
+      <a href="index.html" class="logo">
+        <img src="img/logo.png" alt="شعار موقع سنهور البحرية">
+    </a>
+        
+    <nav class="dashboard-nav">
+      <a href="dashboard.html" ><i class="fas fa-tachometer-alt"></i> نظرة عامة</a>
+      <a href="view-craftsmen.html"><i class="fas fa-screwdriver-wrench"></i> إدارة الصنايعية</a>
+      <a href="view-shops.html"><i class="fas fa-store"></i> إدارة المحلات</a>
+      <a href="view-news.html"><i class="fas fa-newspaper"></i> إدارة الأخبار</a>
+      <a href="view-medical.html" ><i class="fas fa-hospital"></i> إدارة الخدمات الطبية</a>
+      <a href="view-village-services.html"><i class="fas fa-concierge-bell"></i> إدارة الخدمات العامة</a>
+      <a href="view-messages.html"class="active" ><i class="fas fa-envelope"></i> عرض الرسائل</a>
+  </nav>
+
+
+        <div class="logout-btn">
+            <a href="login.html"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a>
+        </div>
+    </aside>
+
+    <main class="dashboard-main">
+        <header class="dashboard-header">
+            <h1>عرض الرسائل</h1>
+            <p>الرسائل الواردة من نموذج "اتصل بنا" في الموقع.</p>
+        </header>
+
+        <div id="messages-list">
+            <div class="message-card">
+                <div class="message-header">
+                    <div class="sender-details">
+                        <h3>أحمد علي</h3>
+                        <span class="sender-phone">01001234567</span>
+                    </div>
+                    <span class="message-date">27 يونيو 2025</span>
+                </div>
+                <div class="message-body">
+                    <p>السلام عليكم، مجهود رائع وموقع ممتاز. أقترح إضافة قسم خاص بالخدمات الطبية والعيادات في القرية. شكرًا لكم.</p>
+                </div>
+                <div class="message-actions">
+                    <button class="action-btn btn-delete"><i class="fas fa-trash"></i> حذف الرسالة</button>
+                </div>
+            </div>
+
+            <div class="message-card">
+                <div class="message-header">
+                    <div class="sender-details">
+                        <h3>محمود صالح</h3>
+                        <span class="sender-phone">غير متوفر</span>
+                    </div>
+                    <span class="message-date">26 يونيو 2025</span>
+                </div>
+                <div class="message-body">
+                    <p>موقع جميل، هل يمكن إضافة رقم الطوارئ الخاص بالكهرباء والمياه في صفحة الخدمات؟ سيكون مفيدًا جدًا.</p>
+                </div>
+                <div class="message-actions">
+                    <button class="action-btn btn-delete"><i class="fas fa-trash"></i> حذف الرسالة</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    
+</body>
+</html>

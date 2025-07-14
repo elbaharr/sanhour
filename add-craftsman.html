@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة صنايعي | لوحة التحكم</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-page">
+
+<aside class="dashboard-sidebar">
+    <a href="index.html" class="logo">
+        <img src="img/logo.png" alt="شعار موقع سنهور البحرية">
+    </a>
+
+    <nav class="dashboard-nav">
+        <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> نظرة عامة</a>
+        <a href="view-craftsmen.html" class="active"><i class="fas fa-screwdriver-wrench"></i> إدارة الصنايعية</a>
+        <a href="view-shops.html"><i class="fas fa-store"></i> إدارة المحلات</a>
+        <a href="view-news.html"><i class="fas fa-newspaper"></i> إدارة الأخبار</a>
+        <a href="view-medical.html"><i class="fas fa-hospital"></i> إدارة الخدمات الطبية</a>
+        <a href="view-village-services.html"><i class="fas fa-concierge-bell"></i> إدارة الخدمات العامة</a>
+        <a href="view-messages.html"><i class="fas fa-envelope"></i> عرض الرسائل</a>
+    </nav>
+
+    <div class="logout-btn">
+        <a href="login.html"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a>
+    </div>
+</aside>
+
+<main class="dashboard-main">
+    <header class="dashboard-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+        <div>
+            <h1>اضافة الصنايعية</h1>
+            <p>اضافة صنايعي جديد في الموقع.</p>
+        </div>
+        <a href="dashboard.html" class="btn"><i class="fas fa-arrow-left"></i> العودة للرئيسية</a>
+    </header>
+
+    <div class="form-container">
+        <h2>نموذج إضافة صنايعي جديد</h2>
+        <form id="add-craftsman-form">
+            <div class="form-group">
+                <label for="craftsman-name">اسم الصنايعي</label>
+                <input type="text" id="craftsman-name" required>
+            </div>
+            <div class="form-group">
+                <label for="craftsman-profession">المهنة</label>
+                <select id="craftsman-profession" required>
+                    <option value="" disabled selected>اختر المهنة</option>
+                    <option value="كهربائي">كهربائي</option>
+                    <option value="سباك">سباك</option>
+                    <option value="نجار">نجار</option>
+                    <option value="حداد">حداد</option>
+                    <option value="نقاش">نقاش</option>
+                    <option value="other">أخرى (اكتب المهنة)</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="other-profession-group" style="display: none;">
+                <label for="other-profession">اكتب المهنة</label>
+                <input type="text" id="other-profession" placeholder="مثلاً: فني تكييف">
+            </div>
+
+            <div class="form-group">
+                <label for="craftsman-phone">رقم الهاتف</label>
+                <input type="tel" id="craftsman-phone" required>
+            </div>
+            <div class="form-group">
+                <label for="craftsman-description">وصف مختصر (اختياري)</label>
+                <textarea id="craftsman-description" rows="4"></textarea>
+            </div>
+
+            <button type="submit" class="btn">إضافة الصنايعي</button>
+        </form>
+    </div>
+</main>
+
+<script>
+  const professionSelect = document.getElementById("craftsman-profession");
+  const otherGroup = document.getElementById("other-profession-group");
+  const otherInput = document.getElementById("other-profession");
+
+  professionSelect.addEventListener("change", () => {
+    if (professionSelect.value === "other") {
+      otherGroup.style.display = "block";
+    } else {
+      otherGroup.style.display = "none";
+      otherInput.value = "";
+    }
+  });
+
+  document.getElementById("add-craftsman-form").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById("craftsman-name").value;
+    const profession = professionSelect.value === "other" ? otherInput.value : professionSelect.value;
+    const phone_number = document.getElementById("craftsman-phone").value;
+    const description = document.getElementById("craftsman-description").value;
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("يجب تسجيل الدخول أولًا.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/add-craftsmen", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({ name, profession, phone_number, description })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("تمت إضافة الصنايعي بنجاح");
+        document.getElementById("add-craftsman-form").reset();
+      } else {
+        alert("فشل: " + data.msg);
+      }
+    } catch (error) {
+      alert("حدث خطأ أثناء الإرسال");
+      console.error(error);
+    }
+  });
+</script>
+
+</body>
+</html>
